@@ -4,7 +4,8 @@
 Animation::Animation(int x, int y, int width, int height, float holdtime, int nFrames, Surface& SpriteSheet, Color Chroma )
 	:
 	SpriteSheet(SpriteSheet),
-	holdTime(holdtime)
+	holdTime(holdtime),
+	chroma(Chroma)
 {
 	assert( x + width * nFrames <= SpriteSheet.GetWidth() );
 	//init frames

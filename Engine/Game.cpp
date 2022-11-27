@@ -25,7 +25,7 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	animation(0,32,32,32,0.1f,6,surf)
+	animation(0,64,32,32,0.1f,6,surf)
 {
 	
 }
