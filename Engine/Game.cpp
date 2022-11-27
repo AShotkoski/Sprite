@@ -39,10 +39,15 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if(wnd.kbd.KeyIsPressed(VK_SPACE) )
+	{
+		x = wnd.mouse.GetPosX();
+		y = wnd.mouse.GetPosY();
+	}
 
 }
 
 void Game::ComposeFrame()
 {
-	gfx.DrawSprite( 100, 100, surf );
+	gfx.DrawSpriteNoChroma( x, y, {200,250,210,250}, surf );
 }

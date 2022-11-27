@@ -24,6 +24,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "Surface.h"
+#include "RectI.h"
 
 class Game
 {
@@ -44,5 +45,7 @@ private:
 	/********************************/
 	/*  User Variables              */
 	/********************************/
-	Surface surf = ("dibr.bmp");
+	Surface surf = ("dumbshapes.bmp");
+	int x = 0;
+	int y = 0;
 };
