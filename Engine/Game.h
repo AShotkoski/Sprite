@@ -44,5 +44,5 @@ private:
 	/********************************/
 	/*  User Variables              */
 	/********************************/
-	Surface surf;
+	Surface surf = ("dib.bmp");
 };
