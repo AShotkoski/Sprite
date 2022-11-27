@@ -63,8 +63,8 @@ public:
 	void DrawSpriteNoChroma( int x, int y, const RectI& subRegion,  const Surface& sprite );
 	void DrawSpriteNoChroma( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite );
 	void DrawSprite( int x, int y, const Surface& sprite, const Color& chroma );
-	void DrawSprite( int x, int y, RectI subRegion,  const Surface& sprite, const Color& chroma );
-	void DrawSprite( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite, const Color& chroma );
+	void DrawSprite( int x, int y, RectI subRegion,  const Surface& sprite, const Color& chroma  = Colors::Magenta);
+	void DrawSprite( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite, const Color& chroma = Colors::Magenta );
 	RectI GetScreenRect() const;
 
 	~Graphics();

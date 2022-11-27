@@ -25,6 +25,8 @@
 #include "Graphics.h"
 #include "Surface.h"
 #include "RectI.h"
+#include "FrameTimer.h"
+#include "Animation.h"
 
 class Game
 {
@@ -45,7 +47,10 @@ private:
 	/********************************/
 	/*  User Variables              */
 	/********************************/
-	Surface surf = ("dumbshapes.bmp");
+	Surface surf = ("Sprites\\character.bmp");
+	Animation animation;
 	int x = 200;
 	int y = 100;
+	FrameTimer ft;
+	float elapsedTime = 0.0f;
 };
