@@ -21,29 +21,56 @@ Surface::Surface( std::string fileName )
 	BITMAPINFOHEADER bmInfoHeader;
 	file.read( reinterpret_cast<char*>( &bmInfoHeader ), sizeof( bmInfoHeader ) );
 
-	assert( bmInfoHeader.biBitCount == 24 );
 	assert( bmInfoHeader.biCompression == BI_RGB );
-
+	assert( bmInfoHeader.biBitCount == 24 || bmInfoHeader.biBitCount == 32 );
 
 	width = bmInfoHeader.biWidth;
 	height = bmInfoHeader.biHeight;
+	bool flipped = false;
+	if ( height < 0 )
+	{
+		height = -height;
+		flipped = true;
+	}
 
 	pixels = new Color[width * height];
 
-	const int offset = ( 4 - ( width * 3 ) % 4 ) % 4;
-	
 	file.seekg( bmHeader.bfOffBits );
 
-	for ( int y = height - 1; y >= 0; y-- )
+	const int offset = ( 4 - ( width * 3 ) % 4 ) % 4;
+
+	if(bmInfoHeader.biBitCount == 24 )
 	{
-		for ( int x = 0; x < width; x++ )
+		for ( int y = height - 1; y >= 0; y-- )
 		{
-			const char b = file.get();
-			const char g = file.get();
-			const char r = file.get();
-			PutPixel( x, y, Color( r, g, b ) );
+			for ( int x = 0; x < width; x++ )
+			{
+				const char b = file.get();
+				const char g = file.get();
+				const char r = file.get();
+				PutPixel( x, y, Color( r, g, b ) );
+			}
+			file.seekg( offset, std::ios::cur );
 		}
-		file.seekg( offset, std::ios::cur );
+	}
+	else if ( bmInfoHeader.biBitCount == 32 )
+	{
+		for ( int y = height - 1; y >= 0; y-- )
+		{
+			for ( int x = 0; x < width; x++ )
+			{
+				const char b = file.get();
+				const char g = file.get();
+				const char r = file.get();
+				const char a = file.get();
+				PutPixel( x, y, Color( r, g, b ) );
+			}
+			file.seekg( offset, std::ios::cur );
+		}
+	}
+	if ( flipped )
+	{
+		FlipX();
 	}
 }
 
@@ -106,4 +133,18 @@ int Surface::GetWidth() const
 int Surface::GetHeight() const
 {
 	return height;
+}
+
+void Surface::FlipX()
+{
+	const Surface old = *this;
+	const int nPixels = width * height;
+	for ( int x = 0; x < width; x++ )
+	{
+		for ( int y = 0; y < height; y++ ) 
+		{
+			int ny = height - y;
+			pixels[y * width + x] = old.pixels[ny * width + x];
+		}
+	}
 }

@@ -14,6 +14,7 @@ public:
 	Color GetPixel( int x, int y ) const;
 	int GetWidth() const;
 	int GetHeight() const;
+	void FlipX();
 
 private:
 	Color* pixels = nullptr;
