@@ -356,6 +356,41 @@ void Graphics::DrawSpriteNoChroma( int x, int y, RectI subRegion, const RectI& c
 	}
 }
 
+void Graphics::DrawSprite( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite, const Color& chroma )
+{
+	if ( x < clip.left )
+	{
+		subRegion.left += clip.left - x;
+		x = clip.left;
+	}
+	else if ( x + subRegion.GetWidth() > clip.right )
+	{
+		subRegion.right -= x + subRegion.GetWidth() - clip.right;
+	}
+	if ( y < clip.top )
+	{
+		subRegion.top += clip.top - y;
+		y += clip.top - y;
+	}
+	else if ( y + subRegion.GetHeight() > clip.bottom )
+	{
+		subRegion.bottom -= y + subRegion.GetHeight() - clip.bottom;
+	}
+
+	for ( int i = subRegion.left; i < subRegion.right; ++i )
+	{
+		for ( int j = subRegion.top; j < subRegion.bottom; ++j )
+		{
+			const Color newPix = sprite.GetPixel( i, j );
+			if ( newPix != chroma )
+			{
+				PutPixel( x + i - subRegion.left, y + j - subRegion.top, sprite.GetPixel( i, j ) );
+			}
+		}
+	}
+}
+
+
 RectI Graphics::GetScreenRect() const
 {
 	return RectI(0,ScreenWidth,0,ScreenHeight);

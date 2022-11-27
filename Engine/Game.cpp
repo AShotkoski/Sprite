@@ -50,6 +50,5 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	//gfx.DrawSpriteNoChroma( x, y, { 200,250,210,250 }, { 100, 400, 100, 400 }, surf );
-	gfx.DrawSpriteNoChroma( x, y, { 10,50,10,50 }, gfx.GetScreenRect(), surf );
+	gfx.DrawSprite( x, y , { 10,50,10,50 }, gfx.GetScreenRect(), surf, Colors::Magenta );
 }
