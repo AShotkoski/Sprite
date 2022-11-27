@@ -356,6 +356,16 @@ void Graphics::DrawSpriteNoChroma( int x, int y, RectI subRegion, const RectI& c
 	}
 }
 
+void Graphics::DrawSprite( int x, int y, const Surface& sprite, const Color& chroma )
+{
+	DrawSprite( x, y, GetScreenRect(), sprite, chroma );
+}
+
+void Graphics::DrawSprite( int x, int y, RectI subRegion, const Surface& sprite, const Color& chroma )
+{
+	DrawSprite( x, y, subRegion, GetScreenRect(), sprite, chroma );
+}
+
 void Graphics::DrawSprite( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite, const Color& chroma )
 {
 	if ( x < clip.left )
