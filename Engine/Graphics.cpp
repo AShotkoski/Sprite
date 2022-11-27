@@ -338,6 +338,36 @@ void Graphics::DrawSpriteNoChroma( int x, int y, const RectI& subRegion, const S
 	}
 }
 
+void Graphics::DrawSpriteNoChroma( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite )
+{
+	if ( x < clip.left )
+	{
+		subRegion.left += clip.left - x ;
+		x += clip.left - x;
+	}
+	else if ( x > clip.right )
+	{
+		subRegion.right -= -( clip.right - x );
+	}
+	if ( y < clip.top )
+	{
+		subRegion.top += clip.top - y;
+		y += clip.top - y;
+	}
+	else if ( y > clip.bottom )
+	{
+		subRegion.bottom -= -( clip.bottom - y );
+	}
+
+	for ( int i = subRegion.left; i < subRegion.right; ++i )
+	{
+		for ( int j = subRegion.top; j < subRegion.bottom; ++j )
+		{
+			PutPixel( x + i - subRegion.left, y + j - subRegion.top, sprite.GetPixel( i, j ) );
+		}
+	}
+}
+
 
 //////////////////////////////////////////////////
 //           Graphics Exception

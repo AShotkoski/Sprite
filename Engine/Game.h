@@ -46,6 +46,6 @@ private:
 	/*  User Variables              */
 	/********************************/
 	Surface surf = ("dumbshapes.bmp");
-	int x = 0;
-	int y = 0;
+	int x = 200;
+	int y = 100;
 };
