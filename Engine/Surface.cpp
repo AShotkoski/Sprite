@@ -38,15 +38,14 @@ Surface::Surface( std::string fileName )
 	{
 		for ( int x = 0; x < width; x++ )
 		{
-			const char r = file.get();
-			const char g = file.get();
 			const char b = file.get();
+			const char g = file.get();
+			const char r = file.get();
 			PutPixel( x, y, Color( r, g, b ) );
 		}
 		file.seekg( offset, std::ios::cur );
 	}
 }
-
 
 Surface::Surface( const Surface& src )
 	:
