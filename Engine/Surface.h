@@ -1,6 +1,7 @@
 #pragma once
 #include "Colors.h"
 #include <fstream>
+#include "RectI.h"
 
 class Surface
 {
@@ -15,6 +16,7 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 	void FlipX();
+	RectI GetRect() const;
 
 private:
 	Color* pixels = nullptr;

@@ -318,45 +318,33 @@ void Graphics::PutPixel( int x,int y,Color c )
 
 void Graphics::DrawSpriteNoChroma(int x, int y, const Surface& sprite )
 {
-	for ( int i = 0; i < sprite.GetWidth(); ++i )
-	{
-		for ( int j = 0; j < sprite.GetHeight(); ++j )
-		{
-			PutPixel( x + i, y + j, sprite.GetPixel( i, j ) );
-		}
-	}
+	DrawSpriteNoChroma( x, y, sprite.GetRect(), sprite );
 }
 
 void Graphics::DrawSpriteNoChroma( int x, int y, const RectI& subRegion, const Surface& sprite )
 {
-	for ( int i = subRegion.left; i < subRegion.right; ++i )
-	{
-		for ( int j = subRegion.top; j < subRegion.bottom; ++j )
-		{
-			PutPixel( x + i - subRegion.left, y + j - subRegion.top, sprite.GetPixel( i, j ) );
-		}
-	}
+	DrawSpriteNoChroma( x, y, subRegion, GetScreenRect(), sprite );
 }
 
 void Graphics::DrawSpriteNoChroma( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite )
 {
 	if ( x < clip.left )
 	{
-		subRegion.left += clip.left - x ;
-		x += clip.left - x;
+		subRegion.left += clip.left - x;
+		x = clip.left;
 	}
-	else if ( x > clip.right )
+	else if ( x + subRegion.GetWidth() > clip.right )
 	{
-		subRegion.right -= -( clip.right - x );
+		subRegion.right -= x + subRegion.GetWidth() - clip.right;
 	}
 	if ( y < clip.top )
 	{
 		subRegion.top += clip.top - y;
 		y += clip.top - y;
 	}
-	else if ( y > clip.bottom )
+	else if ( y + subRegion.GetHeight() > clip.bottom )
 	{
-		subRegion.bottom -= -( clip.bottom - y );
+		subRegion.bottom -= y + subRegion.GetHeight() - clip.bottom;
 	}
 
 	for ( int i = subRegion.left; i < subRegion.right; ++i )
@@ -366,6 +354,11 @@ void Graphics::DrawSpriteNoChroma( int x, int y, RectI subRegion, const RectI& c
 			PutPixel( x + i - subRegion.left, y + j - subRegion.top, sprite.GetPixel( i, j ) );
 		}
 	}
+}
+
+RectI Graphics::GetScreenRect() const
+{
+	return RectI(0,ScreenWidth,0,ScreenHeight);
 }
 
 

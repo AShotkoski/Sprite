@@ -62,6 +62,8 @@ public:
 	void DrawSpriteNoChroma( int x, int y, const Surface& sprite );
 	void DrawSpriteNoChroma( int x, int y, const RectI& subRegion,  const Surface& sprite );
 	void DrawSpriteNoChroma( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite );
+	RectI GetScreenRect() const;
+
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;

@@ -148,3 +148,8 @@ void Surface::FlipX()
 		}
 	}
 }
+
+RectI Surface::GetRect() const
+{
+	return RectI(0,width,0,height);
+}
