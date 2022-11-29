@@ -51,7 +51,7 @@ void Game::UpdateModel()
 	}
 	if ( wnd.kbd.KeyIsPressed( VK_UP ) )
 	{
-		dir = { 0, -100.f };
+		dir = { 0, -1.f };
 	}
 	if ( wnd.kbd.KeyIsPressed( VK_DOWN ) )
 	{
