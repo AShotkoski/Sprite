@@ -64,6 +64,6 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	text.DrawText( "LiLLLoLoO", { 100,100 }, gfx, Colors::White,Colors::Red );
+	text.DrawText( "LiLLLoLoO", { 100,100 }, gfx, Colors::White, Colors::Red );
 	fred.Draw( gfx );
 }
