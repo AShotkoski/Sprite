@@ -1,4 +1,5 @@
 #include "Character.h"
+#include <assert.h>
 
 Character::Character( Vec2 pos )
 	:
@@ -69,5 +70,13 @@ void Character::SetDirection( const Vec2& dir )
 
 void Character::Draw( Graphics& gfx ) const
 {
-	animations[(int)currSeq].Draw( (Vei2)pos, gfx);
+	Draw( gfx, 100 );
+}
+
+void Character::Draw( Graphics& gfx, int percentTransparency ) const
+{
+	assert( percentTransparency > 0 );
+	assert( percentTransparency <= 100 );
+
+	animations[(int)currSeq].Draw( (Vei2)pos, gfx );
 }
