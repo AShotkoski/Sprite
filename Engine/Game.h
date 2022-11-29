@@ -27,6 +27,7 @@
 #include "RectI.h"
 #include "FrameTimer.h"
 #include "Character.h"
+#include "TextDrawer.h"
 
 class Game
 {
@@ -48,6 +49,7 @@ private:
 	/*  User Variables              */ 
 	/********************************/
 	Character fred = (Vec2(100,100));
+	TextDrawer text = ( "Sprites\\Fixedsys16x28.bmp" );
 	int x = 200;
 	int y = 100;
 	FrameTimer ft;
