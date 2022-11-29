@@ -60,13 +60,13 @@ void Character::SetDirection( const Vec2& dir )
 		}
 
 	}
-	vel = dir * speed;
 
+	Vec2 normalizedDir = dir.GetNormalized();
+	vel = normalizedDir * speed;
 }
 
 void Character::Draw( Graphics& gfx ) const
 {
 
 	animations[(int)currSeq].Draw( (Vei2)pos, gfx);
-	//animations[(int)Sequence::WalkingRight].Draw( { 50,50 }, gfx );
 }

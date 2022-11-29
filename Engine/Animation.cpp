@@ -8,6 +8,7 @@ Animation::Animation(int x, int y, int width, int height, float holdtime, int nF
 	chroma(Chroma)
 {
 	assert( x + width * nFrames <= SpriteSheet.GetWidth() );
+	
 	//init frames
 	for ( int i = 0; i < nFrames; ++i )
 	{
@@ -19,8 +20,9 @@ Animation::Animation(int x, int y, int width, int height, float holdtime, int nF
 void Animation::Update( float dt )
 {
 	currTime += dt;
+	//advances frames based off real time passed
 	while ( currTime >= holdTime )
-	{
+	{ //this will be called currTime / holdTime times
 		Advance();
 		currTime -= holdTime;
 	}
