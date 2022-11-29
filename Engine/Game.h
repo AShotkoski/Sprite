@@ -26,7 +26,7 @@
 #include "Surface.h"
 #include "RectI.h"
 #include "FrameTimer.h"
-#include "Animation.h"
+#include "Character.h"
 
 class Game
 {
@@ -45,10 +45,9 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
 	/********************************/
-	/*  User Variables              */
+	/*  User Variables              */ 
 	/********************************/
-	Surface surf = ("Sprites\\character.bmp");
-	Animation animation;
+	Character fred = (Vec2(100,100));
 	int x = 200;
 	int y = 100;
 	FrameTimer ft;

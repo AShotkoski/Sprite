@@ -6,7 +6,8 @@
 class Animation
 {
 public:
-	Animation( int x, int y, int width, int height,float holdtime, int nFrames, Surface& SpriteSheet, Color Chroma = Colors::Magenta );
+	Animation( int x, int y, int width, int height,float holdtime,
+		int nFrames, Surface& SpriteSheet, Color Chroma = Colors::Magenta );
 	void Update( float dt );
 	void Draw( const Vei2& pos, Graphics& gfx ) const;
 private:

@@ -24,8 +24,7 @@
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd ),
-	animation(0,64,32,32,0.1f,6,surf)
+	gfx( wnd )
 {
 	
 }
@@ -41,17 +40,30 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	elapsedTime = ft.Mark();
-	if(wnd.kbd.KeyIsPressed(VK_SPACE) )
+	Vec2 dir( 0, 0 );
+	if(wnd.kbd.KeyIsPressed(VK_RIGHT) )
 	{
-		x = wnd.mouse.GetPosX();
-		y = wnd.mouse.GetPosY();
+		dir = { 1.f, 0 };
+	}
+	if ( wnd.kbd.KeyIsPressed( VK_LEFT ) )
+	{
+		dir = { -1.f, 0 };
+	}
+	if ( wnd.kbd.KeyIsPressed( VK_UP ) )
+	{
+		dir = { 0, -1.f };
+	}
+	if ( wnd.kbd.KeyIsPressed( VK_DOWN ) )
+	{
+		dir = { 0, 1.f };
 	}
 
-	animation.Update( elapsedTime );
+	fred.SetDirection( dir );
+	fred.Update( elapsedTime );
 }
 
 void Game::ComposeFrame()
 {
-	animation.Draw( Vei2( 100, 100 ), gfx );
+	fred.Draw( gfx );
 	//gfx.DrawSprite( x, y , { 0,32,0,32 }, gfx.GetScreenRect(), surf, Colors::Magenta );
 }

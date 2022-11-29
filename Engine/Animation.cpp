@@ -12,17 +12,17 @@ Animation::Animation(int x, int y, int width, int height, float holdtime, int nF
 	for ( int i = 0; i < nFrames; ++i )
 	{
 		//each frame add a rect of that frame to the frames vector
-		frames.emplace_back(  x + width * i, width + width * i, y,  y + height );
+		frames.emplace_back(  x + width * i, x + width + width * i, y,  y + height );
 	}
 }
 
 void Animation::Update( float dt )
 {
 	currTime += dt;
-	if ( currTime >= holdTime )
+	while ( currTime >= holdTime )
 	{
 		Advance();
-		currTime = 0.0f;
+		currTime -= holdTime;
 	}
 }
 
