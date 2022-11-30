@@ -59,20 +59,55 @@ public:
 		PutPixel( x,y,{ unsigned char( r ),unsigned char( g ),unsigned char( b ) } );
 	}
 	void PutPixel( int x,int y,Color c );
-	void DrawSpriteNoChroma( int x, int y, const Surface& sprite );
-	void DrawSpriteNoChroma( int x, int y, const RectI& subRegion,  const Surface& sprite );
-	void DrawSpriteNoChroma( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite );
-	void DrawSprite( int x, int y, const Surface& sprite, const Color& chroma = Colors::Magenta );
-	void DrawSprite( int x, int y, RectI subRegion,  const Surface& sprite, const Color& chroma  = Colors::Magenta);
-	void DrawSprite( int x, int y, RectI subRegion, const RectI& clip,
-		const Surface& sprite, const Color& chroma = Colors::Magenta );
+	
+	template<typename E>
+	void DrawSprite( int x, int y, const Surface& sprite, E effect )
+	{
+		DrawSprite( x, y, GetScreenRect(), sprite, effect ); //I THIKN THE RECT IS WRONG???
+	}
 
-	void DrawSpriteColorSubstitute( int x, int y, const Surface& sprite,
-		const Color& newCol, const Color& chroma = Colors::Magenta  );
-	void DrawSpriteColorSubstitute( int x, int y, RectI subRegion, const Surface& sprite,
-		const Color& newCol, const Color& chroma = Colors::Magenta );
-	void DrawSpriteColorSubstitute( int x, int y, RectI subRegion, const RectI& clip,
-		const Surface& sprite, const Color& newCol, const Color& chroma = Colors::Magenta );
+	template<typename E>
+	void DrawSprite( int x, int y, RectI subRegion, const Surface& sprite, E effect )
+	{
+		DrawSprite( x, y, subRegion, GetScreenRect(), sprite, effect );
+	}
+
+	template<typename E>
+	void DrawSprite( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite, E effect )
+	{
+		if ( x < clip.left )
+		{
+			subRegion.left += clip.left - x;
+			x = clip.left;
+		}
+		else if ( x + subRegion.GetWidth() > clip.right )
+		{
+			subRegion.right -= x + subRegion.GetWidth() - clip.right;
+		}
+		if ( y < clip.top )
+		{
+			subRegion.top += clip.top - y;
+			y += clip.top - y;
+		}
+		else if ( y + subRegion.GetHeight() > clip.bottom )
+		{
+			subRegion.bottom -= y + subRegion.GetHeight() - clip.bottom;
+		}
+
+		for ( int i = subRegion.left; i < subRegion.right; ++i )
+		{
+			for ( int j = subRegion.top; j < subRegion.bottom; ++j )
+			{				
+				effect(
+					sprite.GetPixel(i,j),
+					x + i - subRegion.left,
+					y + j - subRegion.top,
+					*this
+				);
+			}
+		}
+	}
+
 	RectI GetScreenRect() const;
 
 	~Graphics();
