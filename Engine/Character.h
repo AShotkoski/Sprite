@@ -26,7 +26,7 @@ public:
 	//sets animation to be one from sequence, and then moves char by normalized direction
 	void SetDirection( const Vec2& dir );
 	void Draw( Graphics& gfx ) const;
-	void Draw( Graphics& gfx, int percentTransparency ) const;
+	void Draw( Graphics& gfx, float percentVis ) const;
 	//getters and setters
 	Vec2 getPos() const;
 private:

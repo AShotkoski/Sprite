@@ -59,6 +59,7 @@ public:
 		PutPixel( x,y,{ unsigned char( r ),unsigned char( g ),unsigned char( b ) } );
 	}
 	void PutPixel( int x,int y,Color c );
+	Color GetPixel( int x, int y ) const;
 	
 	template<typename E>
 	void DrawSprite( int x, int y, const Surface& sprite, E effect )

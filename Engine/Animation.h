@@ -2,6 +2,7 @@
 #include "Surface.h"
 #include "Graphics.h"
 #include <vector>
+#include "SpriteEffect.h"
 
 class Animation
 {
@@ -12,6 +13,8 @@ public:
 	void Update( float dt );
 	//draws current frame to pos
 	void Draw( const Vei2& pos, Graphics& gfx ) const;
+	void Draw( const Vei2& pos, Graphics& gfx, float percentVisible ) const;
+	
 private:
 	//advances the frame
 	void Advance();

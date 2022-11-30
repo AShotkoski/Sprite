@@ -31,7 +31,13 @@ void Animation::Update( float dt )
 
 void Animation::Draw( const Vei2& pos, Graphics& gfx ) const
 {
-	gfx.DrawSprite( pos.x, pos.y, frames[iCurrFrame], SpriteSheet, SpriteEffect::Chroma(chroma ));
+	gfx.DrawSprite( pos.x, pos.y, frames[iCurrFrame], SpriteSheet, SpriteEffect::Chroma(chroma) );
+}
+
+void Animation::Draw( const Vei2& pos, Graphics& gfx, float percentVisible ) const
+{
+	gfx.DrawSprite( pos.x, pos.y, frames[iCurrFrame], SpriteSheet,
+		SpriteEffect::Transparency(chroma, percentVisible) );
 }
 
 void Animation::Advance()
