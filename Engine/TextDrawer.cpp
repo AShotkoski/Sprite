@@ -1,5 +1,6 @@
 #include "TextDrawer.h"
 #include <assert.h>
+#include "SpriteEffect.h"
 
 TextDrawer::TextDrawer( const std::string filename )
 	:
@@ -9,6 +10,8 @@ TextDrawer::TextDrawer( const std::string filename )
 
 void TextDrawer::DrawText( const std::string str, const Vei2& pos, Graphics& gfx, Color chroma, Color color ) const
 {
+
+	SpriteEffect::Substitute effect( chroma, color );
 	auto currPos = pos;
 	for ( char c : str )
 	{
@@ -21,7 +24,7 @@ void TextDrawer::DrawText( const std::string str, const Vei2& pos, Graphics& gfx
 		if ( c > firstChar && c <= lastChar )
 		{
 			RectI rect = mapCharI( c );
-			gfx.DrawSpriteColorSubstitute( currPos.x, currPos.y, mapCharI( c ), spriteSheet, color, chroma );
+			gfx.DrawSprite( currPos.x, currPos.y, mapCharI( c ), spriteSheet, effect);
 		}
 		currPos.x += tileWidth;
 	}

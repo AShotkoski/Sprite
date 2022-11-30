@@ -1,5 +1,6 @@
 #include "Animation.h"
 #include <assert.h>
+#include "SpriteEffect.h"
 
 Animation::Animation(int x, int y, int width, int height, float holdtime, int nFrames, Surface& SpriteSheet, Color Chroma )
 	:
@@ -30,7 +31,7 @@ void Animation::Update( float dt )
 
 void Animation::Draw( const Vei2& pos, Graphics& gfx ) const
 {
-	gfx.DrawSprite( pos.x, pos.y, frames[iCurrFrame], SpriteSheet, chroma );
+	gfx.DrawSprite( pos.x, pos.y, frames[iCurrFrame], SpriteSheet, SpriteEffect::Chroma(chroma ));
 }
 
 void Animation::Advance()
