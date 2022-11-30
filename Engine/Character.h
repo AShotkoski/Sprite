@@ -27,6 +27,8 @@ public:
 	void SetDirection( const Vec2& dir );
 	void Draw( Graphics& gfx ) const;
 	void Draw( Graphics& gfx, int percentTransparency ) const;
+	//getters and setters
+	Vec2 getPos() const;
 private:
 	Surface SpriteSheet = ( "Sprites\\Link90x90.bmp" );
 	//holds a diff animation for each state possible by enum Sequence

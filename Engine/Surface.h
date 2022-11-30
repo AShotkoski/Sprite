@@ -1,7 +1,7 @@
 #pragma once
 #include "Colors.h"
 #include <fstream>
-#include "RectI.h"
+#include "Rect.h"
 
 class Surface
 {
