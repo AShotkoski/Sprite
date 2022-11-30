@@ -24,7 +24,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "Surface.h"
-#include "RectI.h"
+#include "Rect.h"
 #include "FrameTimer.h"
 #include "Character.h"
 #include "TextDrawer.h"

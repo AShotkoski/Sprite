@@ -80,3 +80,8 @@ void Character::Draw( Graphics& gfx, int percentTransparency ) const
 
 	animations[(int)currSeq].Draw( (Vei2)pos, gfx );
 }
+
+Vec2 Character::getPos() const
+{
+	return pos;
+}

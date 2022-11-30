@@ -62,8 +62,10 @@ void Game::UpdateModel()
 	fred.Update( elapsedTime );
 }
 
+
+
 void Game::ComposeFrame()
 {
-	text.DrawText( "LiLLLoLoO", { 100,100 }, gfx, Colors::White, Colors::Red );
+	text.DrawText( "Gay Bro", fred.getPos() + Vec2{0.f, -20.f}, gfx, Colors::White, Colors::Red);
 	fred.Draw( gfx );
 }
