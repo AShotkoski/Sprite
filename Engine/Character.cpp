@@ -73,12 +73,9 @@ void Character::Draw( Graphics& gfx ) const
 	Draw( gfx, 100 );
 }
 
-void Character::Draw( Graphics& gfx, int percentTransparency ) const
+void Character::Draw( Graphics& gfx, float percentVis ) const
 {
-	assert( percentTransparency > 0 );
-	assert( percentTransparency <= 100 );
-
-	animations[(int)currSeq].Draw( (Vei2)pos, gfx );
+	animations[(int)currSeq].Draw( (Vei2)pos, gfx, percentVis );
 }
 
 Vec2 Character::getPos() const
