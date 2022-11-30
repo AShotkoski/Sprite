@@ -12,7 +12,12 @@ void TextDrawer::DrawText( const std::string str, const Vei2& pos, Graphics& gfx
 	auto currPos = pos;
 	for ( char c : str )
 	{
-		
+		if ( c == '\n' )
+		{
+			currPos.x = pos.x;
+			currPos.y += tileHeight;
+			continue;
+		}
 		if ( c > firstChar && c <= lastChar )
 		{
 			RectI rect = mapCharI( c );
