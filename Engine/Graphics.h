@@ -64,7 +64,7 @@ public:
 	template<typename E>
 	void DrawSprite( int x, int y, const Surface& sprite, E effect )
 	{
-		DrawSprite( x, y, GetScreenRect(), sprite, effect ); //I THIKN THE RECT IS WRONG???
+		DrawSprite( x, y, sprite.GetRect(), sprite, effect); //I THIKN THE RECT IS WRONG???
 	}
 
 	template<typename E>

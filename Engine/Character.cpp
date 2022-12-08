@@ -70,7 +70,7 @@ void Character::SetDirection( const Vec2& dir )
 
 void Character::Draw( Graphics& gfx ) const
 {
-	Draw( gfx, 100 );
+	Draw( gfx, 1.f );
 }
 
 void Character::Draw( Graphics& gfx, float percentVis ) const
