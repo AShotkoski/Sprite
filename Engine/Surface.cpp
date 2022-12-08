@@ -12,20 +12,28 @@ Surface::Surface( int width, int height )
 
 Surface::Surface( std::string fileName )
 {
+	//Open file
 	std::ifstream file( fileName, std::ios::binary );
 	assert( file );
 
+	//Read file header into bitmapfileheader data struct
 	BITMAPFILEHEADER bmHeader;
 	file.read( reinterpret_cast<char*>( &bmHeader ), sizeof( bmHeader ) );
 
+	//read file infoheader into bitmapinfoheader data struct
 	BITMAPINFOHEADER bmInfoHeader;
 	file.read( reinterpret_cast<char*>( &bmInfoHeader ), sizeof( bmInfoHeader ) );
 
+	//Make sure the file is compatible
 	assert( bmInfoHeader.biCompression == BI_RGB );
 	assert( bmInfoHeader.biBitCount == 24 || bmInfoHeader.biBitCount == 32 );
 
+
 	width = bmInfoHeader.biWidth;
 	height = bmInfoHeader.biHeight;
+
+	//Some bitmap files do a negative height and then they have to be be inverted and flipped to work right
+	//This code handles that case
 	bool flipped = false;
 	if ( height < 0 )
 	{
@@ -33,14 +41,20 @@ Surface::Surface( std::string fileName )
 		flipped = true;
 	}
 
+	//Assign memory to store information
 	pixels = new Color[width * height];
 
+	//Seek to the pixel data in the bitmap file
 	file.seekg( bmHeader.bfOffBits );
 
-	const int offset = ( 4 - ( width * 3 ) % 4 ) % 4;
+
+	
 
 	if(bmInfoHeader.biBitCount == 24 )
 	{
+		//24 bit files use padding
+		const int offset = ( 4 - ( width * 3 ) % 4 ) % 4;
+
 		for ( int y = height - 1; y >= 0; y-- )
 		{
 			for ( int x = 0; x < width; x++ )
@@ -65,7 +79,6 @@ Surface::Surface( std::string fileName )
 				const char a = file.get();
 				PutPixel( x, y, Color( r, g, b ) );
 			}
-			file.seekg( offset, std::ios::cur );
 		}
 	}
 	if ( flipped )
@@ -78,10 +91,12 @@ Surface::Surface( const Surface& src )
 	:
 	Surface( src.width, src.height )
 {
-
-	for ( int i = 0; i < width * height; i++ )
+	if ( &src != this )
 	{
-		pixels[i] = src.pixels[i];
+		for ( int i = 0; i < width * height; i++ )
+		{
+			pixels[i] = src.pixels[i];
+		}
 	}
 }
 
@@ -93,18 +108,27 @@ Surface::~Surface()
 
 Surface& Surface::operator=( const Surface& src )
 {
-	height = src.height;
-	width = src.width;
-
-	delete[] pixels;
-	pixels = new Color[width * height];
-
-	for ( int i = 0; i < width * height; i++ )
+	if ( &src != this ) //No self assignment, thats bad
 	{
-		pixels[i] = src.pixels[i];
+		//delete old memory
+		delete[] pixels;
+
+		//Copy size from source
+		height = src.height;
+		width = src.width;
+
+		//assign new memory
+		pixels = new Color[width * height];
+
+		//copy data into new memory
+		for ( int i = 0; i < width * height; i++ )
+		{
+			pixels[i] = src.pixels[i];
+		}
 	}
-	
+
 	return *this;
+	
 }
 
 void Surface::PutPixel( int x, int y, Color c )

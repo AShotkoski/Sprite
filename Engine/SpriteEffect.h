@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include <cassert>
 
+//Functors are funny because i am confused by them
 namespace SpriteEffect
 {
 	class Copy
