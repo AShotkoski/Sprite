@@ -48,6 +48,8 @@ private:
 	/********************************/
 	/*  User Variables              */ 
 	/********************************/
+
+	Surface funny = ( "Sprites\\character.bmp" );
 	Character fred = (Vec2(100,100));
 	TextDrawer text = ( "Sprites\\Fixedsys16x28.bmp" );
 	int x = 200;
