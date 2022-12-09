@@ -44,6 +44,6 @@ private:
 	Sequence currSeq = Sequence::StandingRight;
 
 	//since the direction is normalized, we use speed to control char move speed
-	float speed = 1500.f;
+	float speed = 150.f;
 };
 

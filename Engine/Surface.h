@@ -11,7 +11,9 @@ public:
 	Surface( std::string fileName );
 	~Surface();
 	Surface& operator=( const Surface& src );
+	Surface& operator=( Surface&& donor );
 	Surface( const Surface& src );
+	Surface( Surface&& src );
 
 	//Interface functions
 	void PutPixel( int x, int y, Color c );
@@ -24,7 +26,7 @@ public:
 private:
 	//data
 	Color* pixels = nullptr;
-	int width;
-	int height;
+	int width = 0;
+	int height = 0;
 };
 

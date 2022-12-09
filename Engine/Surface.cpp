@@ -100,6 +100,16 @@ Surface::Surface( const Surface& src )
 	}
 }
 
+Surface::Surface( Surface&& src )
+	:
+	width(src.width),
+	height(src.height),
+	pixels(src.pixels)
+{
+	src.pixels = nullptr;
+	
+}
+
 Surface::~Surface()
 {
 	delete[] pixels;
@@ -129,6 +139,19 @@ Surface& Surface::operator=( const Surface& src )
 
 	return *this;
 	
+}
+
+Surface& Surface::operator=( Surface&& donor )
+{
+	if ( &donor != this )
+	{
+		delete[] pixels;
+		height = donor.height;
+		width = donor.width;
+		pixels = donor.pixels;
+		donor.pixels = nullptr;
+	}
+	return *this;
 }
 
 void Surface::PutPixel( int x, int y, Color c )
