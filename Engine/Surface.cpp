@@ -114,8 +114,7 @@ Surface::Surface( std::string fileName )
 	}
 	catch ( const std::runtime_error& e )
 	{
-		//here is where a better programmer than me would fill the surface with filler info if the surface
-		//file fails to load
+		//If we fail in loading file, load a filled 15x15 sprite of white, only in release too
 #ifdef _DEBUG
 		throw e;
 #endif
