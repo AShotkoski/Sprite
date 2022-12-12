@@ -15,9 +15,9 @@ Surface::Surface( std::string fileName )
 	//Open file
 
 	std::ifstream file( fileName, std::ios::binary );
-	if ( file )
+	if ( !file )
 	{
-
+		throw std::runtime_error( "Error Loading Surface File: " + fileName );
 	}
 
 	//Read file header into bitmapfileheader data struct
@@ -29,8 +29,14 @@ Surface::Surface( std::string fileName )
 	file.read( reinterpret_cast<char*>( &bmInfoHeader ), sizeof( bmInfoHeader ) );
 
 	//Make sure the file is compatible
-	assert( bmInfoHeader.biCompression == BI_RGB );
-	assert( bmInfoHeader.biBitCount == 24 || bmInfoHeader.biBitCount == 32 );
+	if ( bmInfoHeader.biCompression != BI_RGB )
+	{
+		throw std::runtime_error( "Surface bitmap compression type not supported. in: " + fileName );
+	}
+	if ( bmInfoHeader.biBitCount != 24 && bmInfoHeader.biBitCount != 32 )
+	{
+		throw std::runtime_error( "Surface bitmap is not a supported bitcount. in: " + fileName);
+	}
 
 
 	width = bmInfoHeader.biWidth;
