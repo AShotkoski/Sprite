@@ -78,8 +78,8 @@ namespace SpriteEffect
 					perc( bgPixel.GetG(), cSrc.GetG() ),
 					perc( bgPixel.GetB(), cSrc.GetB() )
 				);
-				if(cSrc != 0 )
-					gfx.PutPixel( xDest, yDest, newCol );
+
+				gfx.PutPixel( xDest, yDest, newCol );
 			}
 		}
 	private:

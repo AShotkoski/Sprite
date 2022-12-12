@@ -5,9 +5,9 @@
 Surface::Surface( int width, int height, Color FillColor )
 	:
 	width( width ),
-	height( height ),
-	pixels( new Color[width * height] )
+	height( height )
 {
+	pixels = std::make_unique<Color[]>( width * height );
 	for ( int x = 0; x < width; x++ )
 	{
 		for ( int y = 0; y < height; y++ )
@@ -20,9 +20,9 @@ Surface::Surface( int width, int height, Color FillColor )
 Surface::Surface( int width, int height )
 	:
 	width( width ),
-	height( height ),
-	pixels( new Color[width * height] )
+	height( height )
 {
+	pixels = std::make_unique<Color[]>( width * height );
 }
 
 Surface::Surface( std::string fileName )
@@ -70,7 +70,7 @@ Surface::Surface( std::string fileName )
 		}
 
 		//Assign memory to store information
-		pixels = new Color[width * height];
+		pixels = std::make_unique<Color[]>( width * height );
 
 		//Seek to the pixel data in the bitmap file
 		file.seekg( bmHeader.bfOffBits );
@@ -121,7 +121,7 @@ Surface::Surface( std::string fileName )
 #endif
 		width = 15;
 		height = 15;
-		pixels = new Color[width * height];
+		pixels = std::make_unique<Color[]>( width * height );
 		for ( int i = 0; i < width * height; ++i )
 		{
 			pixels[i] = Colors::White;
@@ -150,32 +150,26 @@ Surface::Surface( Surface&& src ) noexcept
 	:
 	width( src.width ),
 	height( src.height ),
-	pixels( src.pixels )
+	pixels( std::move(src.pixels) )
 {
 	src.pixels = nullptr;
 	src.width = 0;
 	src.height = 0;
 }
 
-Surface::~Surface()
-{
-	delete[] pixels;
-	pixels = nullptr;
-}
 
 Surface& Surface::operator=( const Surface& src )
 {
 	if ( &src != this ) //No self assignment, thats bad
 	{
-		//delete old memory
-		delete[] pixels;
+		
 
 		//Copy size from source
 		height = src.height;
 		width = src.width;
 
 		//assign new memory
-		pixels = new Color[width * height];
+		pixels = std::make_unique<Color[]>( width * height );
 
 		//copy data into new memory
 		for ( int i = 0; i < width * height; i++ )
@@ -192,11 +186,9 @@ Surface& Surface::operator=( Surface&& donor ) noexcept
 {
 	if ( &donor != this )
 	{
-		delete[] pixels;
 		height = donor.height;
 		width = donor.width;
-		pixels = donor.pixels;
-		donor.pixels = nullptr;
+		pixels = std::move(donor.pixels);
 		donor.width = 0;
 		donor.height = 0;
 	}

@@ -12,7 +12,6 @@ public:
 	Surface( int width, int height, Color FillColor );
 	Surface( int width, int height );
 	Surface( std::string fileName );
-	~Surface();
 	Surface() = default;
 	Surface& operator=( const Surface& src );
 	Surface& operator=( Surface&& donor ) noexcept;
@@ -30,7 +29,7 @@ public:
 
 private:
 	//data
-	Color* pixels = nullptr;
+	std::unique_ptr<Color[]> pixels;
 	int width = 0;
 	int height = 0;
 };
