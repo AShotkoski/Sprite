@@ -9,6 +9,7 @@ class Surface
 public:
 
 	//Ctors, Dtors, operators
+	Surface( int width, int height, Color FillColor );
 	Surface( int width, int height );
 	Surface( std::string fileName );
 	~Surface();
@@ -25,6 +26,7 @@ public:
 	int GetHeight() const;
 	void FlipX();
 	RectI GetRect() const;
+	
 
 private:
 	//data

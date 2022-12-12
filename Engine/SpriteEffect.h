@@ -78,11 +78,12 @@ namespace SpriteEffect
 					perc( bgPixel.GetG(), cSrc.GetG() ),
 					perc( bgPixel.GetB(), cSrc.GetB() )
 				);
-				gfx.PutPixel( xDest, yDest, newCol );
+				if(cSrc != 0 )
+					gfx.PutPixel( xDest, yDest, newCol );
 			}
 		}
 	private:
-		inline unsigned char perc( unsigned int v0, unsigned int v1 ) const
+		inline unsigned char perc( int v0, int v1 ) const
 		{
 			return unsigned char( v0 + visPerc * ( v1 - v0 ) );
 		}

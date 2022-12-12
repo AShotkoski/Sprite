@@ -26,7 +26,6 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd )
 {
-	
 }
 
 void Game::Go()
@@ -64,14 +63,14 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-
+	gfx.DrawSprite( 50, 50, whitebg, SpriteEffect::Copy() );
 	
 	text.DrawText( "Gay Bro", Vei2(fred.getPos()), gfx, Colors::White, Colors::Red);
 	fred.Draw( gfx );
 	gfx.DrawSprite( 350, 350, funny, []( Color cSrc, int xDest, int yDest, Graphics& gfx )
 		{
 			Color newColor = cSrc.dword ^ 0xFF00FF0F;
-	gfx.PutPixel( xDest, yDest, newColor );
+		gfx.PutPixel( xDest, yDest, newColor );
 		}
 	);
 }

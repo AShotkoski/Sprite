@@ -56,5 +56,6 @@ private:
 	int y = 100;
 	FrameTimer ft;
 	float elapsedTime = 0.0f;
-
+	
+	Surface whitebg{ 500,500, Colors::White };
 };

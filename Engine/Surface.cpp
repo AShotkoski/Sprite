@@ -2,6 +2,21 @@
 #include <assert.h>
 #include "ChiliWin.h"
 
+Surface::Surface( int width, int height, Color FillColor )
+	:
+	width( width ),
+	height( height ),
+	pixels( new Color[width * height] )
+{
+	for ( int x = 0; x < width; x++ )
+	{
+		for ( int y = 0; y < height; y++ )
+		{
+			PutPixel( x, y, FillColor );
+		}
+	}
+}
+
 Surface::Surface( int width, int height )
 	:
 	width( width ),

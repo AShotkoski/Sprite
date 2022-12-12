@@ -62,19 +62,19 @@ public:
 	Color GetPixel( int x, int y ) const;
 	
 	template<typename E>
-	void DrawSprite( int x, int y, const Surface& sprite, E effect = SpriteEffect::Copy )
+	void DrawSprite( int x, int y, const Surface& sprite, E effect  )
 	{
 		DrawSprite( x, y, sprite.GetRect(), sprite, effect);
 	}
 
 	template<typename E>
-	void DrawSprite( int x, int y, RectI subRegion, const Surface& sprite, E effect = SpriteEffect::Copy )
+	void DrawSprite( int x, int y, RectI subRegion, const Surface& sprite, E effect )
 	{
 		DrawSprite( x, y, subRegion, GetScreenRect(), sprite, effect );
 	}
 
 	template<typename E>
-	void DrawSprite( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite, E effect = SpriteEffect::Copy )
+	void DrawSprite( int x, int y, RectI subRegion, const RectI& clip, const Surface& sprite, E effect )
 	{
 		if ( x < clip.left )
 		{
