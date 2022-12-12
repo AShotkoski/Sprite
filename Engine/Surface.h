@@ -2,18 +2,21 @@
 #include "Colors.h"
 #include <fstream>
 #include "Rect.h"
+#include "ChiliException.h"
 
 class Surface
 {
 public:
+
 	//Ctors, Dtors, operators
 	Surface( int width, int height );
 	Surface( std::string fileName );
 	~Surface();
+	Surface() = default;
 	Surface& operator=( const Surface& src );
-	Surface& operator=( Surface&& donor );
+	Surface& operator=( Surface&& donor ) noexcept;
 	Surface( const Surface& src );
-	Surface( Surface&& src );
+	Surface( Surface&& src ) noexcept;
 
 	//Interface functions
 	void PutPixel( int x, int y, Color c );

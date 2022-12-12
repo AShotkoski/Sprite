@@ -13,8 +13,12 @@ Surface::Surface( int width, int height )
 Surface::Surface( std::string fileName )
 {
 	//Open file
+
 	std::ifstream file( fileName, std::ios::binary );
-	assert( file );
+	if ( file )
+	{
+
+	}
 
 	//Read file header into bitmapfileheader data struct
 	BITMAPFILEHEADER bmHeader;
@@ -100,14 +104,15 @@ Surface::Surface( const Surface& src )
 	}
 }
 
-Surface::Surface( Surface&& src )
+Surface::Surface( Surface&& src ) noexcept
 	:
 	width(src.width),
 	height(src.height),
 	pixels(src.pixels)
 {
 	src.pixels = nullptr;
-	
+	src.width = 0;
+	src.height = 0;
 }
 
 Surface::~Surface()
@@ -141,7 +146,7 @@ Surface& Surface::operator=( const Surface& src )
 	
 }
 
-Surface& Surface::operator=( Surface&& donor )
+Surface& Surface::operator=( Surface&& donor ) noexcept
 {
 	if ( &donor != this )
 	{
@@ -150,6 +155,8 @@ Surface& Surface::operator=( Surface&& donor )
 		width = donor.width;
 		pixels = donor.pixels;
 		donor.pixels = nullptr;
+		donor.width = 0;
+		donor.height = 0;
 	}
 	return *this;
 }
