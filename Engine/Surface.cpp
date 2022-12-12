@@ -4,97 +4,118 @@
 
 Surface::Surface( int width, int height )
 	:
-	width(width),
-	height(height),
-	pixels(new Color[width * height])
+	width( width ),
+	height( height ),
+	pixels( new Color[width * height] )
 {
 }
 
 Surface::Surface( std::string fileName )
 {
-	//Open file
-
-	std::ifstream file( fileName, std::ios::binary );
-	if ( !file )
-	{
-		throw std::runtime_error( "Error Loading Surface File: " + fileName );
-	}
-
-	//Read file header into bitmapfileheader data struct
+	std::ifstream file;
 	BITMAPFILEHEADER bmHeader;
-	file.read( reinterpret_cast<char*>( &bmHeader ), sizeof( bmHeader ) );
-
-	//read file infoheader into bitmapinfoheader data struct
 	BITMAPINFOHEADER bmInfoHeader;
-	file.read( reinterpret_cast<char*>( &bmInfoHeader ), sizeof( bmInfoHeader ) );
 
-	//Make sure the file is compatible
-	if ( bmInfoHeader.biCompression != BI_RGB )
-	{
-		throw std::runtime_error( "Surface bitmap compression type not supported. in: " + fileName );
-	}
-	if ( bmInfoHeader.biBitCount != 24 && bmInfoHeader.biBitCount != 32 )
-	{
-		throw std::runtime_error( "Surface bitmap is not a supported bitcount. in: " + fileName);
-	}
-
-
-	width = bmInfoHeader.biWidth;
-	height = bmInfoHeader.biHeight;
-
-	//Some bitmap files do a negative height and then they have to be be inverted and flipped to work right
-	//This code handles that case
 	bool flipped = false;
-	if ( height < 0 )
+
+	try
 	{
-		height = -height;
-		flipped = true;
-	}
-
-	//Assign memory to store information
-	pixels = new Color[width * height];
-
-	//Seek to the pixel data in the bitmap file
-	file.seekg( bmHeader.bfOffBits );
-
-
-	
-
-	if(bmInfoHeader.biBitCount == 24 )
-	{
-		//24 bit files use padding
-		const int offset = ( 4 - ( width * 3 ) % 4 ) % 4;
-
-		for ( int y = height - 1; y >= 0; y-- )
+		//Open file
+		file.open( fileName, std::ios::binary );
+		if ( !file )
 		{
-			for ( int x = 0; x < width; x++ )
+			throw std::runtime_error( "Error Loading Surface File: " + fileName );
+		}
+
+		//Read file header into bitmapfileheader data struct	
+		file.read( reinterpret_cast<char*>( &bmHeader ), sizeof( bmHeader ) );
+
+		//read file infoheader into bitmapinfoheader data struct	
+		file.read( reinterpret_cast<char*>( &bmInfoHeader ), sizeof( bmInfoHeader ) );
+
+		//Make sure the file is compatible
+		if ( bmInfoHeader.biCompression != BI_RGB )
+		{
+			throw std::runtime_error( "Surface bitmap compression type not supported. in: " + fileName );
+		}
+		if ( bmInfoHeader.biBitCount != 24 && bmInfoHeader.biBitCount != 32 )
+		{
+			throw std::runtime_error( "Surface bitmap is not a supported bitcount. in: " + fileName );
+		}
+
+		width = bmInfoHeader.biWidth;
+		height = bmInfoHeader.biHeight;
+
+		//Some bitmap files do a negative height and then they have to be be inverted and flipped to work right
+		//This code handles that case
+		if ( height < 0 )
+		{
+			height = -height;
+			flipped = true;
+		}
+
+		//Assign memory to store information
+		pixels = new Color[width * height];
+
+		//Seek to the pixel data in the bitmap file
+		file.seekg( bmHeader.bfOffBits );
+
+
+		if ( bmInfoHeader.biBitCount == 24 )
+		{
+			//24 bit files use padding
+			const int offset = ( 4 - ( width * 3 ) % 4 ) % 4;
+
+			for ( int y = height - 1; y >= 0; y-- )
 			{
-				const char b = file.get();
-				const char g = file.get();
-				const char r = file.get();
-				PutPixel( x, y, Color( r, g, b ) );
+				for ( int x = 0; x < width; x++ )
+				{
+					const char b = file.get();
+					const char g = file.get();
+					const char r = file.get();
+					PutPixel( x, y, Color( r, g, b ) );
+				}
+				file.seekg( offset, std::ios::cur );
 			}
-			file.seekg( offset, std::ios::cur );
+		}
+		else if ( bmInfoHeader.biBitCount == 32 )
+		{
+			for ( int y = height - 1; y >= 0; y-- )
+			{
+				for ( int x = 0; x < width; x++ )
+				{
+					const char b = file.get();
+					const char g = file.get();
+					const char r = file.get();
+					const char a = file.get();
+					PutPixel( x, y, Color( r, g, b ) );
+				}
+			}
+		}
+		if ( flipped )
+		{
+			FlipX();
 		}
 	}
-	else if ( bmInfoHeader.biBitCount == 32 )
+	catch ( const std::runtime_error& e )
 	{
-		for ( int y = height - 1; y >= 0; y-- )
+		//here is where a better programmer than me would fill the surface with filler info if the surface
+		//file fails to load
+#ifdef _DEBUG
+		throw e;
+#endif
+		width = 15;
+		height = 15;
+		pixels = new Color[width * height];
+		for ( int i = 0; i < width * height; ++i )
 		{
-			for ( int x = 0; x < width; x++ )
-			{
-				const char b = file.get();
-				const char g = file.get();
-				const char r = file.get();
-				const char a = file.get();
-				PutPixel( x, y, Color( r, g, b ) );
-			}
+			pixels[i] = Colors::White;
 		}
 	}
-	if ( flipped )
-	{
-		FlipX();
-	}
+
+
+
+
 }
 
 Surface::Surface( const Surface& src )
@@ -112,9 +133,9 @@ Surface::Surface( const Surface& src )
 
 Surface::Surface( Surface&& src ) noexcept
 	:
-	width(src.width),
-	height(src.height),
-	pixels(src.pixels)
+	width( src.width ),
+	height( src.height ),
+	pixels( src.pixels )
 {
 	src.pixels = nullptr;
 	src.width = 0;
@@ -149,7 +170,7 @@ Surface& Surface::operator=( const Surface& src )
 	}
 
 	return *this;
-	
+
 }
 
 Surface& Surface::operator=( Surface&& donor ) noexcept
@@ -201,7 +222,7 @@ void Surface::FlipX()
 	const int nPixels = width * height;
 	for ( int x = 0; x < width; x++ )
 	{
-		for ( int y = 0; y < height; y++ ) 
+		for ( int y = 0; y < height; y++ )
 		{
 			int ny = height - y;
 			pixels[y * width + x] = old.pixels[ny * width + x];
@@ -211,5 +232,5 @@ void Surface::FlipX()
 
 RectI Surface::GetRect() const
 {
-	return RectI(0,width,0,height);
+	return RectI( 0, width, 0, height );
 }
